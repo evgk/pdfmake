@@ -29,6 +29,12 @@ function canCreatePdf() {
 	return true;
 }
 
+Document.prototype._getPdfKitDocument = function(options) {
+	var printer = new PdfPrinter(this.fonts);
+	require('fs').bindFS(this.vfs); // bind virtual file system to file system
+  return printer.createPdfKitDocument(this.docDefinition, options);
+}
+
 Document.prototype._createDoc = function (options, callback) {
 	options = options || {};
 	if (this.tableLayouts) {
